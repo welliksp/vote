@@ -1,0 +1,12 @@
+/home/wellik/Documentos/vote/src/main/java/br/com/wsp/vote/service/RulingService.java
+/home/wellik/Documentos/vote/src/main/java/br/com/wsp/vote/repository/ParameterRepository.java
+/home/wellik/Documentos/vote/src/main/java/br/com/wsp/vote/VoteApplication.java
+/home/wellik/Documentos/vote/src/main/java/br/com/wsp/vote/controller/ParameterController.java
+/home/wellik/Documentos/vote/src/main/java/br/com/wsp/vote/model/Ruling.java
+/home/wellik/Documentos/vote/src/main/java/br/com/wsp/vote/model/dto/RulingDto.java
+/home/wellik/Documentos/vote/src/main/java/br/com/wsp/vote/controller/RulingController.java
+/home/wellik/Documentos/vote/src/main/java/br/com/wsp/vote/exception/ExceptionResponse.java
+/home/wellik/Documentos/vote/src/main/java/br/com/wsp/vote/model/Parameter.java
+/home/wellik/Documentos/vote/src/main/java/br/com/wsp/vote/repository/RulingRepository.java
+/home/wellik/Documentos/vote/src/main/java/br/com/wsp/vote/exception/ResourceNotFoundException.java
+/home/wellik/Documentos/vote/src/main/java/br/com/wsp/vote/exception/handler/CustomizedResponseEntityExceptionHandler.java
