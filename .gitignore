@@ -4,3 +4,4 @@
 *.ipr
 mvnw
 mvnw.cmd
+.target
