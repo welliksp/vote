@@ -32,30 +32,6 @@ public class RulingController {
         this.rulingService = rulingService;
     }
 
-    @PostMapping(consumes = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML}, produces = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML})
-    @Operation(summary = "Create Ruling",
-            description = "Create Ruling",
-            tags = {"Ruling"},
-            responses = {
-                    @ApiResponse(description = "Sucess", responseCode = "200",
-                            content = {@Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = RulingRecord.class))}),
-                    @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
-                    @ApiResponse(description = "Unauthorized", responseCode = "401", content = @Content),
-                    @ApiResponse(description = "Not Found", responseCode = "404", content = @Content),
-                    @ApiResponse(description = "Internal Server Error", responseCode = "500", content = @Content)
-            })
-    public ResponseEntity<RulingRecord> save(@RequestBody @Validated RulingRecord rulingRecord) {
-
-        Ruling saved = rulingService.save(rulingRecord);
-
-        Link link = linkTo(methodOn(RulingController.class).findAll()).withSelfRel();
-
-        RulingRecord record = new RulingRecord(saved, link);
-
-        return ResponseEntity.ok(record);
-    }
-
     @GetMapping(produces = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML})
     @Operation(summary = "Find all Ruling",
             description = "Return List of all Ruling",
@@ -110,4 +86,29 @@ public class RulingController {
 
         return ResponseEntity.ok(record);
     }
+
+    @PostMapping(consumes = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML}, produces = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML})
+    @Operation(summary = "Create Ruling",
+            description = "Create Ruling",
+            tags = {"Ruling"},
+            responses = {
+                    @ApiResponse(description = "Sucess", responseCode = "200",
+                            content = {@Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = RulingRecord.class))}),
+                    @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
+                    @ApiResponse(description = "Unauthorized", responseCode = "401", content = @Content),
+                    @ApiResponse(description = "Not Found", responseCode = "404", content = @Content),
+                    @ApiResponse(description = "Internal Server Error", responseCode = "500", content = @Content)
+            })
+    public ResponseEntity<RulingRecord> save(@RequestBody @Validated RulingRecord rulingRecord) {
+
+        Ruling saved = rulingService.save(rulingRecord);
+
+        Link link = linkTo(methodOn(RulingController.class).findAll()).withSelfRel();
+
+        RulingRecord record = new RulingRecord(saved, link);
+
+        return ResponseEntity.ok(record);
+    }
+
 }
