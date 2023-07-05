@@ -1,14 +1,12 @@
 package br.com.wsp.vote.model.record;
 
 import br.com.wsp.vote.model.Ruling;
-import jakarta.validation.constraints.NotBlank;
-import lombok.*;
 import org.springframework.hateoas.Link;
 
 
-public record RulingRecord(Long id, String name, Link link){
+public record RulingRecord(Long id, String name, Long validated, Link link) {
 
-    public RulingRecord(Ruling ruling, Link link){
-        this(ruling.getId(), ruling.getName(), link);
+    public RulingRecord(Ruling ruling, Link link) {
+        this(ruling.getId(), ruling.getName(), ruling.getValidated().getTime(), link);
     }
 }

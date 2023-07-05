@@ -1,6 +1,7 @@
 package br.com.wsp.vote.exception.handler;
 
 import br.com.wsp.vote.exception.ExceptionResponse;
+import br.com.wsp.vote.exception.ResourceBadRequestException;
 import br.com.wsp.vote.exception.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,11 +24,20 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
 
         return new ResponseEntity<>(exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
     @ExceptionHandler(ResourceNotFoundException.class)
     public final ResponseEntity<ExceptionResponse> handleNotFoundRequestException(Exception ex, WebRequest request) {
 
         ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), ex.getMessage(), request.getDescription(false));
 
         return new ResponseEntity<>(exceptionResponse, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(ResourceBadRequestException.class)
+    public final ResponseEntity<ExceptionResponse> handleBadRequestException(Exception ex, WebRequest request) {
+
+        ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), ex.getMessage(), request.getDescription(false));
+
+        return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
     }
 }

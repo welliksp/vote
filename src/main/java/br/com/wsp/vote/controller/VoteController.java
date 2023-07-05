@@ -1,7 +1,10 @@
 package br.com.wsp.vote.controller;
 
+import br.com.wsp.vote.exception.ResourceBadRequestException;
 import br.com.wsp.vote.model.Ruling;
+import br.com.wsp.vote.model.Vote;
 import br.com.wsp.vote.model.record.RulingRecord;
+import br.com.wsp.vote.model.record.VoteReceived;
 import br.com.wsp.vote.service.RulingService;
 import br.com.wsp.vote.service.VoteService;
 import br.com.wsp.vote.util.MediaType;
@@ -14,11 +17,14 @@ import org.springframework.hateoas.Link;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
-@RequestMapping("/api/vote")
+@RequestMapping("/api/vote/v1")
 @CrossOrigin
 @Tag(name = "Vote", description = "Endpoints for Managing Vote")
 public class VoteController {
@@ -44,12 +50,20 @@ public class VoteController {
                     @ApiResponse(description = "Not Found", responseCode = "404", content = @Content),
                     @ApiResponse(description = "Internal Server Error", responseCode = "500", content = @Content)
             })
-    public ResponseEntity<RulingRecord> vote(@RequestBody RulingRecord ruling) {
+    public ResponseEntity<RulingRecord> vote(@RequestBody VoteReceived voteDto) {
 
-        Ruling byId = rulingService.findById(ruling.id());
-        voteService.addEvent(byId);
+        Ruling byId = rulingService.findById(voteDto.getId());
 
-        Link link = linkTo(methodOn(VoteController.class).vote(ruling)).withSelfRel();
+        Timestamp date = Timestamp.valueOf(LocalDateTime.now());
+
+        if (date.compareTo(byId.getValidated()) > 0)
+            throw new ResourceBadRequestException("Voting Time Is Up");
+
+        Vote vote = new Vote(byId.getId(), byId.getName(), "welliksp", voteDto.getResult());
+
+        voteService.addEvent(vote);
+
+        Link link = linkTo(methodOn(VoteController.class).vote(voteDto)).withSelfRel();
 
         return ResponseEntity.ok(new RulingRecord(byId, link));
     }

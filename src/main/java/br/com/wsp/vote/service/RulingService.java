@@ -19,12 +19,13 @@ public class RulingService {
         this.repository = repository;
     }
 
-    public Ruling save(RulingRecord dto) {
+    public Ruling save(RulingRecord record) {
 
         Ruling ruling = Ruling.builder()
-                .name(dto.name())
+                .name(record.name())
                 .createAt(Timestamp.valueOf(LocalDateTime.now()))
                 .createdBy("welliksp")
+                .validated(record.validated() == 0 ? Timestamp.valueOf(LocalDateTime.now().plusMinutes(1)) : Timestamp.valueOf(LocalDateTime.now().plusMinutes(record.validated())))
                 .build();
 
 

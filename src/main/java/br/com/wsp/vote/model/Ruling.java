@@ -29,5 +29,8 @@ public class Ruling implements Serializable {
     @Column(name = "created_at")
     @NonNull
     private Timestamp createAt;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "validated")
+    private Timestamp validated;
 
 }
