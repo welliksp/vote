@@ -23,13 +23,7 @@ spring:
   batch:
     jdbc:
       isolation-level-for-create:
-  kafka:
-    producer:
-      bootstrap-servers: 127.0.0.1:9093
-      value-serializer: org.apache.kafka.common.serialization.StringSerializer
-      key-serializer: org.apache.kafka.common.serialization.StringSerializer
-
 springdoc:
-  paths-to-match: /voteRecord/**/
+  paths-to-match: /api/vote/**, /api/ruling/**
   swagger-ui:
     use-root-path: true

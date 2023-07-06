@@ -9,9 +9,12 @@ import org.springframework.stereotype.Service;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.logging.Logger;
 
 @Service
 public class RulingService {
+
+    private final Logger logger = Logger.getLogger(RulingService.class.getName());
 
     private final RulingRepository repository;
 
@@ -28,12 +31,13 @@ public class RulingService {
                 .validated(record.validated() == 0 ? Timestamp.valueOf(LocalDateTime.now().plusMinutes(1)) : Timestamp.valueOf(LocalDateTime.now().plusMinutes(record.validated())))
                 .build();
 
-
+        logger.info("Saving ruling!" + ruling);
         return repository.save(ruling);
     }
 
     public List<Ruling> findAll() {
 
+        logger.info("Finding Ruling!");
         List<Ruling> all = repository.findAll();
 
         return all;
@@ -41,8 +45,31 @@ public class RulingService {
 
     public Ruling findById(Long id) {
 
+        logger.info("Finding Ruling!");
         Ruling ruling = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Not Found Ruling By Id: " + id));
 
         return ruling;
+    }
+
+    public Ruling update(RulingRecord rulingRecord) {
+
+        logger.info("Finding Ruling!");
+        var ruling = repository.findById(rulingRecord.id()).orElseThrow(() -> new ResourceNotFoundException("Not Found Ruling by ID: " + rulingRecord.id()));
+
+        ruling.setName(rulingRecord.name());
+        ruling.setValidated(rulingRecord.validated() == 0 ? Timestamp.valueOf(LocalDateTime.now().plusMinutes(1)) : Timestamp.valueOf(LocalDateTime.now().plusMinutes(rulingRecord.validated())));
+
+        logger.info("Updating ruling!" + ruling);
+        return repository.save(ruling);
+
+    }
+
+    public void delete(Long id) {
+
+        logger.info("Finding Ruling!");
+        var ruling = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Not Found Ruling by ID" + id));
+
+        repository.deleteById(ruling.getId());
+
     }
 }
